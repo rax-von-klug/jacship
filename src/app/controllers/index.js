@@ -2,9 +2,12 @@
 
 import { Router } from 'express';
 import { Authenticator } from '../helpers/authenticator.js';
+import { SlackController } from './slack';
 import * as bot from '../helpers/botkit';
 
 const router = Router();
+
+router.use('/slack', SlackController);
 
 router.get('/', (req, res, next) => res.render('index', { title: 'J.A.C.S.H.I.P', installed: false }));
 
