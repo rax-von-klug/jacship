@@ -1,7 +1,6 @@
 'use strict';
 
 import { Router } from 'express';
-import requestify from 'requestify';
 
 const router = Router();
 
@@ -43,7 +42,7 @@ router.post('/slack/interactive', (req, res) => {
                         }
                     ]
                 }]
-            }
+            };
 
             res.send(help_messages);
         }
