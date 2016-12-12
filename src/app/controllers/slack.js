@@ -28,4 +28,8 @@ router.post('/interactive', (req, res, next) => {
     }
 });
 
+router.post('/commands/register', (req, res, next) => {
+    
+});
+
 export default router;
