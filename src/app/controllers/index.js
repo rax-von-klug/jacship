@@ -18,8 +18,9 @@ router.get('/new', (req, res, next) => {
     let auth = new Authenticator(auth_code);
 
     auth.authenticate().then((auth) => {
-        bot.register_team(auth);
-        res.render('index', { title: 'J.A.C.S.H.I.P', installed: true, team_name: 'PortalWatchers' });
+        bot.register_team(auth).then((team) => {
+            res.render('index', { title: 'J.A.C.S.H.I.P', installed: true, team_name: team.name });
+        });
     });
 });
 

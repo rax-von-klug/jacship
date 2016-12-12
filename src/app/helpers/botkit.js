@@ -41,23 +41,27 @@ export function connect(config) {
 export function register_team({ access_token, bot, scope }) {
     let url = `https://slack.com/api/auth.test?token=${access_token}`;
 
-    requestify.get(url).then((res) => {
-        let { team_id, user_id, url, team, user } = res.getBody();
+    return new Promise((resolve, reject) => {
+        resolve(requestify.get(url).then((res) => {
+            let { team_id, user_id, url, team, user } = res.getBody();
 
-        let slack_team = {
-            id: team_id,
-            bot:{
-              token: bot.bot_access_token,
-              user_id: bot.bot_user_id,
-              createdBy: user_id
-            },
-            createdBy: user_id,
-            url: url,
-            name: team
-        };
+            let slack_team = {
+                id: team_id,
+                bot:{
+                token: bot.bot_access_token,
+                user_id: bot.bot_user_id,
+                createdBy: user_id
+                },
+                createdBy: user_id,
+                url: url,
+                name: team
+            };
 
-        connect(slack_team);
-        save_user(scope, { access_token, user_id, team_id, user });
+            connect(slack_team);
+            save_user(scope, { access_token, user_id, team_id, user });
+
+            return slack_team;
+        }));
     });
 }
 
@@ -69,7 +73,6 @@ function trackBot(bot) {
 
 controller.on('create_bot', (bot, team) => {
     if (_bots[bot.config.token]) {
-        console.log('Already exists');
         bot.api.channels.list({ token: bot.confi.token }, (err, result) => {
             if (!err) {
                 team.channels = []; // reset channel listing.
@@ -86,9 +89,7 @@ controller.on('create_bot', (bot, team) => {
 
         logger.info("already online! channel listing updated.");
     } else {
-        console.log('Doesn\'t exist');
         bot.startRTM((err) => {
-            console.log('Err', err);
             if (!err) {
                 trackBot(bot);
 
