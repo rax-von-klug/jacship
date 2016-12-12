@@ -1,0 +1,13 @@
+{
+  "name": "star-boy",
+  "version": "0.0.1",
+  "description": "Slack bot for connections education",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "components"
+  ],
+  "dependencies": {
+    "jquery": "^2.2.2"
+  }
+}

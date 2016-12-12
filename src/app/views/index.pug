@@ -1,0 +1,23 @@
+extends layout/base.pug
+
+block head
+  title= title
+
+block body
+  header
+    div.container
+      img(src='/img/jac-ship-icon.png' height='300' width='300')
+      h1 J.A.C.S.H.I.P
+      h3 Facilitate communication between slack teams
+      a(href=`https://slack.com/oauth/authorize?client_id=${process.env.SLACK_ID}&redirect_uri=${process.env.SLACK_REDIRECT}new&scope=bot`): img(alt="Add to Slack" height='40' width='139' src='/img/add_to_slack.png')
+  div.container
+    div.col
+      div.card
+        h4 How it use J.A.C.S.H.I.P
+        p.instructions Register your slack team
+        p.instructions Share your channel
+        p.instructions Check for avaiable shared channels to join
+        p.instructions J.A.C.S.H.I.P will respond with an interactive message allowing you to join the shared channel
+        h4.footer-msg Begin collaberating today!
+        a(href=`https://slack.com/oauth/authorize?client_id=${process.env.SLACK_ID}&redirect_uri=${process.env.SLACK_REDIRECT}new&scope=bot`): img(alt="Add to Slack" height='40' width='139' src='/img/add_to_slack.png')
+
