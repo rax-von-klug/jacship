@@ -5,6 +5,7 @@ import requestify from 'requestify';
 import config from '../../config';
 import botkit_mongo_storage from './botkit_storage_mongoose';
 import logger from './logger';
+import * as messages from './messages';
 
 export const controller = Botkit.slackbot({
     storage: botkit_mongo_storage(config)
@@ -117,25 +118,7 @@ controller.on('create_bot', (bot, team) => {
                 });
             }
 
-            bot.say({
-                text: 'J.A.C.S.H.I.P helps facilitate communication by opening shared channels between slack teams.',
-                attachments: [{
-                    title: 'Would you like to know more :question:',
-                    text: 'Type `help` to display this message again.',
-                    callback_id: 'general_help',
-                    attachment_type: 'default',
-                    actions: [
-                        {
-                            name: 'show_help',
-                            text: 'Show all Help topics',
-                            value: 'show_all_topics',
-                            style: 'primary',
-                            type: 'button'
-                        }
-                    ]
-                }],
-                channel: team.createdBy
-            });
+            bot.say(messages.general_help_message(team.createdBy));
         });
     }
 });
