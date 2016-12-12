@@ -47,9 +47,7 @@
     "pug": "^2.0.0-beta6",
     "requestify": "^0.2.5",
     "serve-favicon": "^2.3.0",
-    "winston": "^2.2.0"
-  },
-  "devDependencies": {
+    "winston": "^2.2.0",
     "babel-core": "^6.10.4",
     "babel-eslint": "^6.0.5",
     "babel-preset-es2015": "^6.9.0",
