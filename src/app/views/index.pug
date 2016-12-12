@@ -5,6 +5,10 @@ block head
 
 block body
   header
+    unless !installed
+      div.banner 
+        div.page_alert
+          div.alert_text J.A.C.S.H.I.P has been installed on <strong>#{team_name}</strong>
     div.container
       img(src='/img/jac-ship-icon.png' height='300' width='300')
       h1 J.A.C.S.H.I.P

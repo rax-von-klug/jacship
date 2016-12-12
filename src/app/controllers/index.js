@@ -6,7 +6,7 @@ import * as bot from '../helpers/botkit';
 
 const router = Router();
 
-router.get('/', (req, res, next) => res.render('index', { title: 'J.A.C.S.H.I.P' }));
+router.get('/', (req, res, next) => res.render('index', { title: 'J.A.C.S.H.I.P', installed: false }));
 
 router.get('/new', (req, res, next) => {
     let auth_code = req.query.code;
@@ -19,6 +19,7 @@ router.get('/new', (req, res, next) => {
 
     auth.authenticate().then((auth) => {
         bot.register_team(auth);
+        res.render('index', { title: 'J.A.C.S.H.I.P', installed: true, team_name: 'PortalWatchers' });
     });
 });
 
