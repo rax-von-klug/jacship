@@ -4,7 +4,7 @@ import { Router } from 'express';
 
 const router = Router();
 
-router.post('/interactive', (req, res) => {
+router.post('/interactive', (req, res, next) => {
     let payload = JSON.parse(req.body.payload);
 
     if (payload.callback_id === "general_help") {
