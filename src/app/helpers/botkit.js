@@ -39,7 +39,7 @@ export function connect(config) {
     controller.trigger('create_bot', [ bot, config ]);
 }
 
-export function register_team({ access_token, bot, scope }) {
+export function save_team({ access_token, bot, scope }) {
     let url = `https://slack.com/api/auth.test?token=${access_token}`;
 
     return new Promise((resolve, reject) => {
@@ -63,6 +63,20 @@ export function register_team({ access_token, bot, scope }) {
 
             return slack_team;
         }));
+    });
+}
+
+export function register_slack_team(incoming_webhook_url, team_id) {
+    controller.storage.teams.get(team_id, function(err, team) {
+        team.webhooks = {
+            incomingUrl: incoming_webhook_url
+        };
+
+        controller.storage.teams.save(team, function(err, team) {
+            if (!err) {
+                return messages.register_command_reply(incoming_webhook_url);
+            }
+        });
     });
 }
 
