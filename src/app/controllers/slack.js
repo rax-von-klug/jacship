@@ -30,19 +30,10 @@ router.post('/interactive', (req, res, next) => {
 });
 
 router.post('/commands/register', (req, res, next) => {
-    console.log(req);
     let payload = JSON.parse(req.body);
 
-    let webhookUrl = payload.text.substring(8).replace(/\s/g, '');
-    var urlStartIndex = webhookUrl.indexOf('<');
-    var urlEndIndex = webhookUrl.indexOf('>');
-
-    if(urlStartIndex !== -1 && urlEndIndex !== -1) {
-        webhookUrl = webhookUrl.substring(urlStartIndex + 1, urlEndIndex);
-    }
-
-    if (webhookUrl !== '') {
-        res.send(bot.register_slack_team(webhookUrl, payload.team_id));
+    if (payload.text !== '') {
+        res.send(bot.register_slack_team(payload.text, payload.team_id));
     } else {
         res.send(messages.invalid_register_command_reply);
     }
