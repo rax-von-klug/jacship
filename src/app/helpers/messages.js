@@ -52,9 +52,10 @@ export function register_command_reply(webhook_url) {
     return {
         text: 'Your slack team has been registered!',
         response_type: 'ephemeral',
-        attachments: [
-            { text: `${webhook_url} was saved for your team.` }
-        ]
+        attachments: [{ 
+            text: `${webhook_url} was saved for your team.`,
+            color: '#00ff00' 
+        }]
     };
 }
 
