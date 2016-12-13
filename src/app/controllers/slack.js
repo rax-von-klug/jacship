@@ -1,6 +1,8 @@
 'use strict';
 
 import { Router } from 'express';
+import * as validator from '../helpers/validator';
+import * as bot from '../helpers/botkit';
 import * as messages from '../helpers/messages';
 
 const router = Router();
@@ -25,6 +27,18 @@ router.post('/interactive', (req, res, next) => {
         if (payload.actions[0].value === 'available_help') {
             res.send(messages.available_channel_help_message);
         }
+    }
+});
+
+router.post('/commands/register', (req, res, next) => {
+    let payload = req.body;
+
+    if (validator.is_url(payload.text)) {
+        bot.register_slack_team(payload.text, payload.team_id, (reply) => {
+            res.send(reply);
+        });
+    } else {
+        res.send(messages.invalid_register_command_reply);
     }
 });
 
