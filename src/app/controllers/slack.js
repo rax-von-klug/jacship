@@ -30,7 +30,7 @@ router.post('/interactive', (req, res, next) => {
 });
 
 router.post('/commands/register', (req, res, next) => {
-    let payload = JSON.parse(req.body);
+    let payload = req.body;
 
     if (payload.text !== '') {
         res.send(bot.register_slack_team(payload.text, payload.team_id));
