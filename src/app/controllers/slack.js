@@ -1,6 +1,7 @@
 'use strict';
 
 import { Router } from 'express';
+import * as validator from '../helpers/validator';
 import * as bot from '../helpers/botkit';
 import * as messages from '../helpers/messages';
 
@@ -32,7 +33,7 @@ router.post('/interactive', (req, res, next) => {
 router.post('/commands/register', (req, res, next) => {
     let payload = req.body;
 
-    if (payload.text !== '') {
+    if (validator.is_url(payload.text)) {
         bot.register_slack_team(payload.text, payload.team_id, (reply) => {
             res.send(reply);
         });

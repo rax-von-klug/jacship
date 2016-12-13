@@ -61,7 +61,7 @@ export function register_command_reply(webhook_url) {
 export const invalid_register_command_reply = {
     text: ':no_entry: Invalid register command :no_entry:',
     attachments: [{ 
-        text: 'Please use the following format: `/register <webhook URL>`',
-        mrkdwn_in: ["text", "pretext"]
+        text: 'A valid URL is required.',
+        color: '#ff0000'
     }]
 };
