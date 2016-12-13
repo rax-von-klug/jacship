@@ -33,6 +33,8 @@ router.post('/commands/register', (req, res, next) => {
     let payload = req.body;
 
     if (payload.text !== '') {
+        let reply = bot.register_slack_team(payload.text, payload.team_id);
+        console.log(reply);
         res.send(bot.register_slack_team(payload.text, payload.team_id));
     } else {
         res.send(messages.invalid_register_command_reply);
