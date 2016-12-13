@@ -66,15 +66,15 @@ export function save_team({ access_token, bot, scope }) {
     });
 }
 
-export function register_slack_team(incoming_webhook_url, team_id) {
-    controller.storage.teams.get(team_id, function(err, team) {
+export function register_slack_team(incoming_webhook_url, team_id, callback) {
+    controller.storage.teams.get(team_id, (err, team) => {
         team.webhooks = {
             incomingUrl: incoming_webhook_url
         };
 
-        controller.storage.teams.save(team, function(err, team) {
+        controller.storage.teams.save(team, (err, team) => {
             if (!err) {
-                return messages.register_command_reply(incoming_webhook_url);
+                callback(messages.register_command_reply(incoming_webhook_url));
             }
         });
     });
