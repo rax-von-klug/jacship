@@ -54,7 +54,7 @@ export function register_command_reply(webhook_url) {
         response_type: 'ephemeral',
         attachments: [{ 
             text: `${webhook_url} was saved for your team.`,
-            color: '#00ff00' 
+            color: '#008000' 
         }]
     };
 }
