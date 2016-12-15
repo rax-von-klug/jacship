@@ -1,6 +1,8 @@
 'use strict';
 
 import { Router } from 'express';
+import requestify from 'requestify';
+import _ from 'lodash';
 import * as validator from '../helpers/validator';
 import * as bot from '../helpers/botkit';
 import * as messages from '../helpers/messages';
@@ -53,8 +55,18 @@ router.post('/commands/share', (req, res, next) => {
 router.post('/commands/available', (req, res, next) => {
     let payload = req.body;
 
-    bot.get_available_channels(payload.channel_id, payload.text, (reply) => {
-        res.send(reply);
+    bot.get_available_channels(payload.channel_id, payload.text, (replies) => {
+        res.sendStatus(200);
+
+        _.forEach(replies, (reply) => {
+            let options = {
+                headers: {
+                    'content-type': 'application/json'
+                }
+            }
+
+            requestify.post(payload.response_url, reply, options);
+        });
     });
 });
 
