@@ -63,7 +63,7 @@ router.post('/commands/available', (req, res, next) => {
                 headers: {
                     'content-type': 'application/json'
                 }
-            }
+            };
 
             requestify.post(payload.response_url, reply, options);
         });
