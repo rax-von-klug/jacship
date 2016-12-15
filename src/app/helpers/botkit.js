@@ -80,7 +80,7 @@ export function register_slack_team(incoming_webhook_url, team_id, callback) {
     });
 }
 
-export function share_channel({ team_id, channel_id, channel_name }, callback) {
+export function share_channel(team_id, channel_id, channel_name, callback) {
     controller.storage.teams.get(team_id, (err, team) => {
         if (!err) {
             let shared_channel = {

@@ -45,7 +45,7 @@ router.post('/commands/register', (req, res, next) => {
 router.post('/commands/share', (req, res, next) => {
     let payload = req.body;
 
-    bot.share_channel(payload, (reply) => {
+    bot.share_channel(payload.team_id, payload.channel_id, payload.channel_name, (reply) => {
         res.send(reply);
     });
 });
