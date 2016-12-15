@@ -56,7 +56,7 @@ router.post('/commands/available', (req, res, next) => {
     let payload = req.body;
 
     bot.get_available_channels(payload.channel_id, payload.text, (replies) => {
-        res.sendStatus(200);
+        res.send(messages.available_channels_confirmation);
 
         _.forEach(replies, (reply) => {
             let options = {
