@@ -42,4 +42,12 @@ router.post('/commands/register', (req, res, next) => {
     }
 });
 
+router.post('/commands/share', (req, res, next) => {
+    let payload = req.body;
+
+    bot.share_channel(payload, (reply) => {
+        res.send(reply);
+    });
+});
+
 export default router;

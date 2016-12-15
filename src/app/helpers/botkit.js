@@ -2,6 +2,7 @@
 
 import Botkit from 'botkit';
 import requestify from 'requestify';
+import _ from 'lodash';
 import config from '../../config';
 import botkit_mongo_storage from './botkit_storage_mongoose';
 import logger from './logger';
@@ -77,6 +78,25 @@ export function register_slack_team(incoming_webhook_url, team_id, callback) {
                 callback(messages.register_command_reply(incoming_webhook_url));
             }
         });
+    });
+}
+
+export function share_channel({ team_id, channel_id, channel_name }) {
+    controller.storage.teams.get(team_id, (err, team) => {
+        if (!err) {
+            let shared_channel = {
+                id: `${team_id}.${channel_id}`,
+                team_id: team.id,
+                team_name: team.name,
+                channel_id: channel_id,
+                channel_name: channel_name,
+                joined_channels: []
+            };
+
+            controller.storage.shares.save(shared_channel, (err, shared_channel) => {
+                callback(messages.share_command_reply(shared_channel.channel_name));
+            });
+        }
     });
 }
 

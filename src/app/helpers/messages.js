@@ -66,3 +66,10 @@ export const invalid_register_command_reply = {
         color: '#ff0000'
     }]
 };
+
+export function share_command_reply(channel_name) {
+    return {
+        text: `*${channel_name}* has been marked as shared and joinable by other teams`,
+        response_type: 'ephemeral'
+    };
+}
