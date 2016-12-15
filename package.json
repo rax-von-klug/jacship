@@ -1,5 +1,5 @@
 {
-  "name": "star-boy",
+  "name": "jacship",
   "version": "0.0.1",
   "description": "Slack bot for connections education",
   "main": "app.js",
@@ -8,7 +8,7 @@
     "test": "gulp test"
   },
   "author": "rax-von-klug",
-  "repository": "rax-von-klug/star-boy",
+  "repository": "rax-von-klug/jacship",
   "license": "MIT",
   "private": true,
   "dependencies": {
