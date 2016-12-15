@@ -2,7 +2,6 @@
 
 import Botkit from 'botkit';
 import requestify from 'requestify';
-import _ from 'lodash';
 import config from '../../config';
 import botkit_mongo_storage from './botkit_storage_mongoose';
 import logger from './logger';
@@ -81,7 +80,7 @@ export function register_slack_team(incoming_webhook_url, team_id, callback) {
     });
 }
 
-export function share_channel({ team_id, channel_id, channel_name }) {
+export function share_channel({ team_id, channel_id, channel_name }, callback) {
     controller.storage.teams.get(team_id, (err, team) => {
         if (!err) {
             let shared_channel = {
