@@ -80,6 +80,25 @@ export function register_slack_team(incoming_webhook_url, team_id, callback) {
     });
 }
 
+export function share_channel(team_id, channel_id, channel_name, callback) {
+    controller.storage.teams.get(team_id, (err, team) => {
+        if (!err) {
+            let shared_channel = {
+                id: `${team_id}.${channel_id}`,
+                team_id: team.id,
+                team_name: team.name,
+                channel_id: channel_id,
+                channel_name: channel_name,
+                joined_channels: []
+            };
+
+            controller.storage.shares.save(shared_channel, (err, shared_channel) => {
+                callback(messages.share_command_reply(shared_channel.channel_name));
+            });
+        }
+    });
+}
+
 const _bots = {};
 
 function trackBot(bot) {

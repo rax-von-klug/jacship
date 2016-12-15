@@ -13,7 +13,7 @@ block body
       img(src='/img/jac-ship-icon.png' height='300' width='300')
       h1 J.A.C.S.H.I.P
       h3 Facilitate communication between slack teams
-      a(href=`https://slack.com/oauth/authorize?client_id=${process.env.SLACK_ID}&redirect_uri=${process.env.SLACK_REDIRECT}new&scope=bot`): img(alt="Add to Slack" height='40' width='139' src='/img/add_to_slack.png')
+      a(href=`https://slack.com/oauth/authorize?client_id=${process.env.SLACK_ID}&redirect_uri=${process.env.SLACK_REDIRECT}new&scope=bot,commands`): img(alt="Add to Slack" height='40' width='139' src='/img/add_to_slack.png')
   div.container
     div.col
       div.card
@@ -29,7 +29,7 @@ block body
                   div.message_icon: img(src='/img/jac-ship-icon.png' class='member_image')
                 div.message_content
                   span(class='message_sender color_bot_Your_App') J.A.C.S.H.I.P #[span.bot_label BOT]
-                  a(class='timestamp ts_tip ts_tip_top ts_tip_float ts_tip_hidden ts_tip_multiline ts_tip_delay_300') 11:28 AM #[span.ts_tip_tip]
+                  a(class='timestamp ts_tip ts_tip_top ts_tip_float ts_tip_hidden ts_tip_multiline ts_tip_delay_300') 11:28 AM #[span.ts_tip_tip] #[span.tiemstamp Only visible by you]
                   br
                   span.message_body
                     div.message_text Your slack team has been registered!
@@ -38,6 +38,21 @@ block body
                         div.msg_inline_attachment_column.column_content
                           div.msg_inline_attachment_row.attachment_flush_text 
                             div.message_text #[a(href='https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX') https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX] was saved for your team.           
+        p.instructions Share your channel with other teams
+        img(src='/img/share_channel.png', class='start' alt='Enter the command /share')
+        p.sub-instructions A response with a confirmation that your channel has been made available for joining will be sent
+        div#message_preview_panel.panel.active
+          div#message_preview_wrapper
+            div(id='msg_div' class='no_padding' style='display: block')
+              ts-message(id='msg_0_000000' class='message feature_fix_files bot_message standalone first')
+                div(class='message_gutter dense_theme_margin')
+                  div.message_icon: img(src='/img/jac-ship-icon.png' class='member_image')
+                div.message_content
+                  span(class='message_sender color_bot_Your_App') J.A.C.S.H.I.P #[span.bot_label BOT]
+                  a(class='timestamp ts_tip ts_tip_top ts_tip_float ts_tip_hidden ts_tip_multiline ts_tip_delay_300') 11:28 AM #[span.ts_tip_tip] #[span.tiemstamp Only visible by you]
+                  br
+                  span.message_body
+                    div.message_text <strong>test_channel</strong> has been marked as shared and joinable by other teams         
         h4.footer-msg Begin collaberating today!
         a(href=`https://slack.com/oauth/authorize?client_id=${process.env.SLACK_ID}&redirect_uri=${process.env.SLACK_REDIRECT}new&scope=bot,commands`): img(alt="Add to Slack" height='40' width='139' src='/img/add_to_slack.png')
 
