@@ -75,7 +75,7 @@ export function share_command_reply(channel_name) {
 }
 
 export const available_channels_confirmation = {
-    text: 'Pulling up the list of available channels now...'
+    text: ':ok_hand: Pulling up the list of available channels now...'
 }
 
 export function available_channels_reply(team_name) {
