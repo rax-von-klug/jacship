@@ -42,7 +42,7 @@ export default function(config) {
 
     var db = mongoose.createConnection(config.db);
     var storage = {};
-    var zones = ['teams', 'channels', 'users'];
+    var zones = ['teams', 'channels', 'users', 'shares'];
 
     zones.forEach(function(zone) {
         var model = createModel(db, zone);
