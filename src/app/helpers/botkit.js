@@ -7,6 +7,7 @@ import config from '../../config';
 import botkit_mongo_storage from './botkit_storage_mongoose';
 import logger from './logger';
 import * as messages from './messages';
+import * as actions from './actions';
 
 export const controller = Botkit.slackbot({
     storage: botkit_mongo_storage(config)
@@ -110,25 +111,10 @@ export function get_available_channels(channel_id, filter, callback) {
         let grouped_channels = _.groupBy(channels, 'team_name');
 
         _.forEach(grouped_channels, (value, key) => {
-            let message = {
-                text: `The following channels have been shared by *${key}*`,
-                attachments: [{
-                    text: 'Would you like to  join a conversation?',
-                    callback_id: `join_shared_channel_${key}`,
-                    color: '#008000',
-                    attachment_type: "default",
-                    actions: []
-                }]
-            };
+            let message = messages.available_channels_reply(key);
 
             _.forEach(value, (channel) => {
-                message.attachments[0].actions.push({
-                    name: 'join_channel',
-                    text: `Join ${channel.channel_name}`,
-                    type: "button",
-                    style: "primary",
-                    value: `${channel.team_id}.${channel.channel_id}`
-                });
+                message.attachments[0].actions.push(actions.available_channel_action(channel.channel_name, channel.channel_id, channel.team_id));
             });
 
             callback(message);

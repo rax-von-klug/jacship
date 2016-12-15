@@ -73,3 +73,16 @@ export function share_command_reply(channel_name) {
         response_type: 'ephemeral'
     };
 }
+
+export function available_channels_reply(team_name) {
+    return {
+        text: `The following channels have been shared by *${team_name}*`,
+        attachments: [{
+            text: 'Would you like to join a conversation?',
+            callback_id: `join_shared_channel_${team_name}`,
+            color: '#008000',
+            attachment_type: "default",
+            actions: []
+        }]
+    };
+}
