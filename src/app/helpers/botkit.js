@@ -2,6 +2,7 @@
 
 import Botkit from 'botkit';
 import requestify from 'requestify';
+import _ from 'lodash';
 import config from '../../config';
 import botkit_mongo_storage from './botkit_storage_mongoose';
 import logger from './logger';
@@ -96,6 +97,42 @@ export function share_channel(team_id, channel_id, channel_name, callback) {
                 callback(messages.share_command_reply(shared_channel.channel_name));
             });
         }
+    });
+}
+
+export function get_available_channels(channel_id, filter, callback) {
+    controller.storage.shares.all((err, shares) => {
+        let channels = _.filter(shares, (share) => share.channel_id !== channel_id);
+        if (filter !== '') {
+            channels = _.filter(channels, (channel) => channel.team_name === filter);
+        }
+
+        let grouped_channels = _.groupBy(channels, 'team_name');
+
+        _.forEach(grouped_channels, (value, key) => {
+            let message = {
+                text: `The following channels have been shared by *${key}*`,
+                attachments: [{
+                    text: 'Would you like to  join a conversation?',
+                    callback_id: `join_shared_channel_${key}`,
+                    color: '#008000',
+                    attachment_type: "default",
+                    actions: []
+                }]
+            };
+
+            _.forEach(value, (channel) => {
+                message.attachments[0].actions.push({
+                    name: 'join_channel',
+                    text: `Join ${channel.channel_name}`,
+                    type: "button",
+                    style: "primary",
+                    value: `${channel.team_id}.${channel.channel_id}`
+                });
+            });
+
+            callback(message);
+        });
     });
 }
 

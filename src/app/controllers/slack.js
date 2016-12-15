@@ -50,4 +50,12 @@ router.post('/commands/share', (req, res, next) => {
     });
 });
 
+router.post('/commands/available', (req, res, next) => {
+    let payload = req.body;
+
+    bot.get_available_channels(payload.channel_id, payload.text, (reply) => {
+        res.send(reply);
+    });
+});
+
 export default router;
