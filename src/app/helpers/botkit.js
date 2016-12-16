@@ -127,8 +127,7 @@ export function get_available_channels(channel_id, filter, callback) {
     });
 }
 
-export function join_shared_channel({ actions, team, channel, original_message, message_ts }, callback) {
-    console.log(actions);
+export function join_shared_channel({ actions, team, channel }, callback) {
     controller.storage.shares.get(actions[0].value, (err, shared_channel) => {
         controller.storage.teams.get(team.id, (err, team) => {
             if (!_.isArray(shared_channel.joined_channels)) {
@@ -141,7 +140,8 @@ export function join_shared_channel({ actions, team, channel, original_message, 
                 post_channel_id: channel.id
             });
 
-            console.log(original_message);
+            controller.storage.shares.save(shared_channel);
+
             callback({ text: ":white_check_mark: You have joined the conversation!" });
         });
     });
