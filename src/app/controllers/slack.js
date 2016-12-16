@@ -1,8 +1,6 @@
 'use strict';
 
 import { Router } from 'express';
-import requestify from 'requestify';
-import _ from 'lodash';
 import * as validator from '../helpers/validator';
 import * as bot from '../helpers/botkit';
 import * as messages from '../helpers/messages';
