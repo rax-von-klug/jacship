@@ -30,6 +30,7 @@ router.post('/interactive', (req, res, next) => {
     }
 
     if (payload.callback_id.includes("join_shared_channel_")) {
+        console.log(payload);
         bot.join_shared_channel(payload, (reply) => {
             res.send(reply);
         });
