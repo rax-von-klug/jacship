@@ -110,7 +110,8 @@ export function get_available_channels(channel_id, filter, callback) {
 
         let grouped_channels = _.groupBy(channels, 'team_name');
         let reply_message = {
-            attachments: []
+            attachments: [],
+            response_type: 'in_channel'
         };
 
         _.forEach(grouped_channels, (value, key) => {
@@ -142,7 +143,10 @@ export function join_shared_channel({ actions, team, channel }, callback) {
 
             controller.storage.shares.save(shared_channel);
 
-            callback({ text: ":white_check_mark: You have joined the conversation!" });
+            callback({ 
+                text: ":white_check_mark: You have joined the conversation!",
+                replace_original: false 
+            });
         });
     });
 }
