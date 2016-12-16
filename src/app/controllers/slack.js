@@ -55,18 +55,8 @@ router.post('/commands/share', (req, res, next) => {
 router.post('/commands/available', (req, res, next) => {
     let payload = req.body;
 
-    bot.get_available_channels(payload.channel_id, payload.text, (replies) => {
-        res.send(messages.available_channels_confirmation);
-
-        _.forEach(replies, (reply) => {
-            let options = {
-                headers: {
-                    'content-type': 'application/json'
-                }
-            };
-
-            requestify.post(payload.response_url, reply, options);
-        });
+    bot.get_available_channels(payload.channel_id, payload.text, (reply) => {
+        res.send(reply);
     });
 });
 

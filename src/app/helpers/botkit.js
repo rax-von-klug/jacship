@@ -109,19 +109,21 @@ export function get_available_channels(channel_id, filter, callback) {
         }
 
         let grouped_channels = _.groupBy(channels, 'team_name');
-        let reply_messages = [];
+        let reply_message = {
+            attachments: []
+        }
 
         _.forEach(grouped_channels, (value, key) => {
-            let message = messages.available_channels_reply(key);
+            let attachment = messages.available_channels_reply(key);
 
             _.forEach(value, (channel) => {
-                message.attachments[0].actions.push(actions.available_channel_action(channel.channel_name, channel.channel_id, channel.team_id));
+                attachment.push(actions.available_channel_action(channel.channel_name, channel.channel_id, channel.team_id));
             });
 
-            reply_messages.push(message);
+            reply_message.attachments.push(attachment);
         });
 
-        callback(reply_messages);
+        callback(reply_message);
     });
 }
 
