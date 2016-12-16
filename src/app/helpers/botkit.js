@@ -117,7 +117,7 @@ export function get_available_channels(channel_id, filter, callback) {
             let attachment = messages.available_channels_reply(key);
 
             _.forEach(value, (channel) => {
-                attachment.push(actions.available_channel_action(channel.channel_name, channel.channel_id, channel.team_id));
+                attachment.actions.push(actions.available_channel_action(channel.channel_name, channel.channel_id, channel.team_id));
             });
 
             reply_message.attachments.push(attachment);
