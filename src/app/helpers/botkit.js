@@ -143,7 +143,7 @@ export function join_shared_channel({ actions, team, channel }, callback) {
             controller.storage.shares.save(shared_channel);
 
             callback({ 
-                text: `:white_check_mark: You have joined the conversation in *${team.name}'s *#${channel.name}*!`,
+                text: `:white_check_mark: You have joined the conversation in *${shared_channel.team_name}'s* *#${shared_channel.channel_name}*!`,
                 replace_original: false 
             });
         });
