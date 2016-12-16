@@ -110,8 +110,7 @@ export function get_available_channels(channel_id, filter, callback) {
 
         let grouped_channels = _.groupBy(channels, 'team_name');
         let reply_message = {
-            attachments: [],
-            response_type: 'in_channel'
+            attachments: []
         };
 
         _.forEach(grouped_channels, (value, key) => {
