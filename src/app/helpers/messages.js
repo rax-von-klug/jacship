@@ -80,12 +80,12 @@ export const available_channels_confirmation = {
 
 export function available_channels_reply(team_name) {
     return {
-        pretext: `The following channels have been shared by *${team_name}*`,
+        title: `The following channels have been shared by *${team_name}*`,
         text: 'Would you like to join a conversation?',
         callback_id: `join_shared_channel_${team_name}`,
         color: '#008000',
         attachment_type: "default",
-        mrkdwn_in: ["text", "pretext"],
+        mrkdwn_in: ["text", "title"],
         actions: []
     };
 }

@@ -127,6 +127,25 @@ export function get_available_channels(channel_id, filter, callback) {
     });
 }
 
+export function join_shared_channel({ actions, team, channel, original_message, message_ts }, callback) {
+    controller.storage.shares.get(actions[0].value, (err, shared_channel) => {
+        controller.storage.teams.get(team.id, (err, team) => {
+            if (!_.isArray(shared_channel.joined_channels)) {
+                shared_channel.joined_channels = [];
+            }
+
+            shared_channel.joined_channels.push({
+                id: team.id,
+                webhook_url: team.webhooks.incomingUrl,
+                post_channel_id: channel.id
+            });
+
+            console.log(original_message);
+            callback({ text: ":white_check_mark: You have joined the conversation!" });
+        });
+    });
+}
+
 const _bots = {};
 
 function trackBot(bot) {

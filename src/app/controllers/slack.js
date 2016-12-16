@@ -28,6 +28,12 @@ router.post('/interactive', (req, res, next) => {
             res.send(messages.available_channel_help_message);
         }
     }
+
+    if (payload.callback_id.includes("join_shared_channel_")) {
+        bot.join_shared_channel(payload, (reply) => {
+            res.send(reply);
+        });
+    }
 });
 
 router.post('/commands/register', (req, res, next) => {
