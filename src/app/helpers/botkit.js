@@ -157,9 +157,31 @@ function trackBot(bot) {
 }
 
 controller.hears([".+","^pattern$"], ["ambient"], (bot, message) => {
-    // let shared_channel_id = `${bot.team_info.id}.${message.channel}`;
+    let shared_channel_id = `${bot.team_info.id}.${message.channel}`;
 
-    console.log(message);
+    bot.api.users.info({
+        user: message.user,
+        token: bot.config.token
+    }, (err, user_info) => {
+        controller.storage.shares.get(shared_channel_id, (err, shared_channel) => {
+            if (!err && shared_channel !== null) {
+                _.forEach(shared_channel.joined_channels, (channel) => {
+                    let post_message = {
+                        username: user_info.user.name,
+                        channel: channel.post_channel_id,
+                        icon_url: user_info.user.profile.image_32,
+                        text: message.text
+                    };
+                    let options = {
+                        headers: {
+                            'content-type': 'application/json'
+                        }
+                    };
+                    requestify.post(channel.incomingUrl, post_message, options);
+                });
+            }
+        });
+    });
 });
 
 controller.on('create_bot', (bot, team) => {
