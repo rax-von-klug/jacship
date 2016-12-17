@@ -156,6 +156,12 @@ function trackBot(bot) {
     _bots[bot.config.token] = bot;
 }
 
+controller.hears([".+","^pattern$"], ["ambient"], (bot, message) => {
+    let shared_channel_id = `${bot.team_info.id}.${message.channel}`;
+
+    console.log(message);
+});
+
 controller.on('create_bot', (bot, team) => {
     if (_bots[bot.config.token]) {
         bot.api.channels.list({ token: bot.confi.token }, (err, result) => {
