@@ -28,6 +28,12 @@ router.post('/interactive', (req, res, next) => {
             res.send(messages.available_channel_help_message);
         }
     }
+
+    if (payload.callback_id.includes("join_shared_channel_")) {
+        bot.join_shared_channel(payload, (reply) => {
+            res.send(reply);
+        });
+    }
 });
 
 router.post('/commands/register', (req, res, next) => {
@@ -46,6 +52,14 @@ router.post('/commands/share', (req, res, next) => {
     let payload = req.body;
 
     bot.share_channel(payload.team_id, payload.channel_id, payload.channel_name, (reply) => {
+        res.send(reply);
+    });
+});
+
+router.post('/commands/available', (req, res, next) => {
+    let payload = req.body;
+
+    bot.get_available_channels(payload.channel_id, payload.text, (reply) => {
         res.send(reply);
     });
 });

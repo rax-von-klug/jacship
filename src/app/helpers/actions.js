@@ -28,3 +28,12 @@ export const available_channel_help = {
     value: 'available_help',
     type: 'button'
 };
+
+export function available_channel_action(channel_name, channel_id, team_id) {
+    return {
+        name: 'join_channel',
+        text: `#${channel_name}`,
+        type: "button",
+        value: `${team_id}.${channel_id}`
+    };
+}

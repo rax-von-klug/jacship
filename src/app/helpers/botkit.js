@@ -2,10 +2,12 @@
 
 import Botkit from 'botkit';
 import requestify from 'requestify';
+import _ from 'lodash';
 import config from '../../config';
 import botkit_mongo_storage from './botkit_storage_mongoose';
 import logger from './logger';
 import * as messages from './messages';
+import * as actions from './actions';
 
 export const controller = Botkit.slackbot({
     storage: botkit_mongo_storage(config)
@@ -96,6 +98,55 @@ export function share_channel(team_id, channel_id, channel_name, callback) {
                 callback(messages.share_command_reply(shared_channel.channel_name));
             });
         }
+    });
+}
+
+export function get_available_channels(channel_id, filter, callback) {
+    controller.storage.shares.all((err, shares) => {
+        let channels = _.filter(shares, (share) => share.channel_id !== channel_id);
+        if (filter !== '') {
+            channels = _.filter(channels, (channel) => channel.team_name === filter);
+        }
+
+        let grouped_channels = _.groupBy(channels, 'team_name');
+        let reply_message = {
+            attachments: []
+        };
+
+        _.forEach(grouped_channels, (value, key) => {
+            let attachment = messages.available_channels_reply(key);
+
+            _.forEach(value, (channel) => {
+                attachment.actions.push(actions.available_channel_action(channel.channel_name, channel.channel_id, channel.team_id));
+            });
+
+            reply_message.attachments.push(attachment);
+        });
+
+        callback(reply_message);
+    });
+}
+
+export function join_shared_channel({ actions, team, channel }, callback) {
+    controller.storage.shares.get(actions[0].value, (err, shared_channel) => {
+        controller.storage.teams.get(team.id, (err, team) => {
+            if (!_.isArray(shared_channel.joined_channels)) {
+                shared_channel.joined_channels = [];
+            }
+
+            shared_channel.joined_channels.push({
+                id: team.id,
+                webhook_url: team.webhooks.incomingUrl,
+                post_channel_id: channel.id
+            });
+
+            controller.storage.shares.save(shared_channel);
+
+            callback({ 
+                text: `:white_check_mark: You have joined the conversation in *${shared_channel.team_name}'s* *#${shared_channel.channel_name}*!`,
+                replace_original: false 
+            });
+        });
     });
 }
 

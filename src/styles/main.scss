@@ -236,7 +236,7 @@ ts-message {
 
 .btn {
     padding: 6px 12px 7px;
-    font-size: .8125rem;
+    font-size: 13px;
     line-height: 1.2rem;
     -webkit-user-select: none;
     text-decoration: none;
@@ -268,6 +268,7 @@ ts-message {
 }
 
 .message_text {
+    margin-top: 4px;
     margin-bottom: 4px;
     width: 100%
 }
@@ -322,6 +323,13 @@ ts-message {
 
 /* Extra CSS stuff*/
 
+.white_check_mark {
+    border-radius: 0.25rem;
+    background-color: #008000;
+    color: white;
+    padding: 3px;
+}
+
 .attachment_group.has_border .inline_attachment {
     margin-left: 4px;
     box-sizing: border-box;
@@ -335,9 +343,9 @@ ts-message {
     line-height: 0;
 }
 
-.msg_inline_attachment_row:last-of-type.attachment_flush_text {
-    margin-bottom: -3px;
-}
+// .msg_inline_attachment_row:last-of-type.attachment_flush_text {
+//     margin-bottom: -3px;
+// }
 
 .msg_inline_attachment_row {
     width: 100%;
