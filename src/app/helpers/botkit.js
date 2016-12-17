@@ -157,7 +157,7 @@ function trackBot(bot) {
 }
 
 controller.hears([".+","^pattern$"], ["ambient"], (bot, message) => {
-    let shared_channel_id = `${bot.team_info.id}.${message.channel}`;
+    // let shared_channel_id = `${bot.team_info.id}.${message.channel}`;
 
     console.log(message);
 });
