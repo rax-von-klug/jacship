@@ -166,6 +166,7 @@ controller.hears([".+","^pattern$"], ["ambient"], (bot, message) => {
         controller.storage.shares.get(shared_channel_id, (err, shared_channel) => {
             if (!err && shared_channel !== null) {
                 _.forEach(shared_channel.joined_channels, (channel) => {
+                    console.log(channel);
                     let post_message = {
                         username: user_info.user.name,
                         channel: channel.post_channel_id,
