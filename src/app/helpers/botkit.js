@@ -180,7 +180,7 @@ controller.hears([".+","^pattern$"], ["ambient"], (bot, message) => {
                             'content-type': 'application/json'
                         }
                     };
-                    requestify.post(channel.incomingUrl, post_message, options);
+                    requestify.post(channel.webhook_url, post_message, options);
                 });
             }
         });
