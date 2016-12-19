@@ -1,6 +1,5 @@
 'use strict';
 
-import dotenv from 'dotenv';
 import path from 'path';
 import bodyParser from 'body-parser';
 import compress from 'compression';
@@ -11,8 +10,6 @@ import favicon from 'serve-favicon';
 import config from './config';
 import controllers from './app/controllers';
 import logger from './app/helpers/logger';
-
-dotenv.load({ path: config.root + '/.env' });
 
 const app = express();
 
