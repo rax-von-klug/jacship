@@ -4,7 +4,7 @@
   "description": "Slack bot for connections education",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
+    "start": "node build/app.js",
     "test": "gulp test"
   },
   "author": "rax-von-klug",
