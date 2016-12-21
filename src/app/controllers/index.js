@@ -9,7 +9,7 @@ const router = Router();
 
 router.use('/slack', slackController);
 
-router.get('/', (req, res, next) => res.render('index', { title: 'J.A.C.S.H.I.P', installed: false }));
+router.get('/', (req, res, next) => res.render('index', { title: 'J.A.C.S.H.I.P.', installed: false }));
 
 router.get('/new', (req, res, next) => {
     let auth_code = req.query.code;
@@ -22,8 +22,10 @@ router.get('/new', (req, res, next) => {
 
     auth.authenticate().then((auth) => {
         bot.save_team(auth).then((team) => {
-            res.render('index', { title: 'J.A.C.S.H.I.P', installed: true, team_name: team.name });
+            res.render('index', { title: 'J.A.C.S.H.I.P.', installed: true, team_name: team.name });
         });
+    }, (err) => {
+        res.render('index', { title: 'J.A.C.S.H.I.P.', auth_error: true });
     });
 });
 

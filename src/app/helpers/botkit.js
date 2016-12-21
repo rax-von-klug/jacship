@@ -46,14 +46,15 @@ export function save_team({ access_token, bot, scope }) {
 
     return new Promise((resolve, reject) => {
         resolve(requestify.get(url).then((res) => {
+            console.log(res);
             let { team_id, user_id, url, team, user } = res.getBody();
 
             let slack_team = {
-                id: team_id,
-                bot:{
-                token: bot.bot_access_token,
-                user_id: bot.bot_user_id,
-                createdBy: user_id
+                    id: team_id,
+                    bot:{
+                    token: bot.bot_access_token,
+                    user_id: bot.bot_user_id,
+                    createdBy: user_id
                 },
                 createdBy: user_id,
                 url: url,
@@ -163,12 +164,9 @@ controller.hears([".+","^pattern$"], ["ambient"], (bot, message) => {
         user: message.user,
         token: bot.config.token
     }, (err, user_info) => {
-        console.log(user_info);
         controller.storage.shares.get(shared_channel_id, (err, shared_channel) => {
-            console.log(shared_channel);
             if (!err && shared_channel !== null) {
                 _.forEach(shared_channel.joined_channels, (channel) => {
-                    console.log(channel);
                     let post_message = {
                         username: user_info.user.name,
                         channel: channel.post_channel_id,
