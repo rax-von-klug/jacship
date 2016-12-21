@@ -21,7 +21,10 @@ router.get('/new', (req, res, next) => {
     let auth = new Authenticator(auth_code);
 
     auth.authenticate().then((auth) => {
-        console.log(auth);
+        if (auth.error) {
+            res.render('index', { title: 'J.A.C.S.H.I.P', auth_error: true });
+        }
+
         bot.save_team(auth).then((team) => {
             res.render('index', { title: 'J.A.C.S.H.I.P', installed: true, team_name: team.name });
         });

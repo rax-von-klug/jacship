@@ -42,7 +42,6 @@ export function connect(config) {
 }
 
 export function save_team({ access_token, bot, scope }) {
-    console.log(bot);
     let url = `https://slack.com/api/auth.test?token=${access_token}`;
 
     return new Promise((resolve, reject) => {

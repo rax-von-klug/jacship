@@ -5,6 +5,10 @@ block head
 
 block body
   header
+    if auth_error
+      div.banner
+        div.page_alert
+          div.alert_text J.A.C.S.H.I.P. couldn't be installed #[a(href=`https://slack.com/oauth/authorize?client_id=${process.env.SLACK_ID}&redirect_uri=${process.env.SLACK_REDIRECT}new&scope=bot,commands` class='btn-info open', type='button') Try Again]
     unless !installed
       div.banner 
         div.page_alert
