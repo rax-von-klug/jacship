@@ -46,6 +46,7 @@ export function save_team({ access_token, bot, scope }) {
 
     return new Promise((resolve, reject) => {
         resolve(requestify.get(url).then((res) => {
+            console.log(res);
             let { team_id, user_id, url, team, user } = res.getBody();
 
             let slack_team = {
