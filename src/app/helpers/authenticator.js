@@ -14,7 +14,7 @@ export class Authenticator {
             let request = requestify.get(auth_url)
                 .then((res) => { 
                     console.log('SUCCESS!', res);
-                    res.getBody()
+                    res.getBody();
                 })
                 .fail((res) => {
                     console.log('FAILED!', res);
