@@ -46,11 +46,10 @@ export function save_team({ access_token, bot, scope }) {
 
     return new Promise((resolve, reject) => {
         resolve(requestify.get(url).then((res) => {
-            console.log(res);
             let { team_id, user_id, url, team, user } = res.getBody();
 
             let slack_team = {
-                    id: team_id,
+                id: team_id,
                     bot:{
                     token: bot.bot_access_token,
                     user_id: bot.bot_user_id,
@@ -152,16 +151,13 @@ export function join_shared_channel({ actions, team, channel }, callback) {
 }
 
 export function process_event({ token, team_id, event }, callback) {
+    console.log(event);
     controller.storage.teams.get(team_id, (err, team_info) => {
         let url = `https://slack.com/api/users.info?token=${team_info.token}&user=${event.user}`;
         let shared_channel_id = `${team_id}.${event.channel}`;
 
-        console.log(shared_channel_id);
-
         requestify.get(url).then((res) => {
             let payload = res.getBody();
-
-            console.log(payload);
 
             if (payload.ok) {
                 controller.storage.shares.get(shared_channel_id, (err, shared_channel) => {
