@@ -34,6 +34,12 @@ router.post('/interactive', (req, res, next) => {
             res.send(reply);
         });
     }
+
+    if (payload.callback_id.includes("leave_shared_channel")) {
+        bot.leave_shared_channel(payload, (reply) => {
+            res.send(reply);
+        });
+    }
 });
 
 router.post('/events', (req, res, next) => {

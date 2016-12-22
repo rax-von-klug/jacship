@@ -159,6 +159,22 @@ export function join_shared_channel({ actions, team, channel }, callback) {
     });
 }
 
+export function leave_shared_channel({ actions, team, channel }, callback) {
+    let shared_channel_id = actions[0].value.split('#')[0];
+    let leaving_team_id = actions[0].value.split('#')[1];
+
+    controller.storage.shares.get(shared_channel_id, (err, shared_channel) => {
+        _.remove(shared_channel.joined_channels, (joined_channel) => joined_channel.id === leaving_team_id);
+
+        controller.storage.shares.save(shared_channel);
+
+        callback({
+            text: `:negative_squared_cross_mark: You have left the conversation in *${shared_channel.team_name}'s* *#${shared_channel.channel_name}*`,
+            replace_original: false
+        });
+    });
+}
+
 export function display_connected_channels({ team_id, channel_id }, callback) {
     controller.storage.shares.all((err, shares) => {
         let channels = _.filter(shares, (share) => share.channel_id !== channel_id);
