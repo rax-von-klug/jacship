@@ -152,9 +152,8 @@ export function join_shared_channel({ actions, team, channel }, callback) {
 }
 
 export function process_event({ token, team_id, event }, callback) {
-    console.log(team_id);
     controller.storage.teams.get(team_id, (err, team_info) => {
-        let url = `https://slack.com/api/users.info?token=${team_info.bot.bot_access_token}&user=${event.user}`;
+        let url = `https://slack.com/api/users.info?token=${team_info.token}&user=${event.user}`;
         let shared_channel_id = `${team_id}.${event.channel}`;
 
         console.log(shared_channel_id);
