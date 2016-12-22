@@ -8,7 +8,7 @@ block body
     if auth_error
       div.banner
         div.page_alert
-          div.alert_text J.A.C.S.H.I.P. couldn't be installed #[a(href=`https://slack.com/oauth/authorize?client_id=${process.env.SLACK_ID}&redirect_uri=${process.env.SLACK_REDIRECT}new&scope=bot,commands` class='btn-info open', type='button') Try Again]
+          div.alert_text J.A.C.S.H.I.P. couldn't be installed #[a(href=`https://slack.com/oauth/authorize?client_id=${process.env.SLACK_ID}&redirect_uri=${process.env.SLACK_REDIRECT}new&scope=bot,commands,channels:history` class='btn-info open', type='button') Try Again]
     unless !installed
       div.banner 
         div.page_alert
@@ -17,7 +17,7 @@ block body
       img(src='/img/jac-ship-icon.png' height='300' width='300')
       h1 J.A.C.S.H.I.P.
       h3 Facilitate communication between slack teams
-      a(href=`https://slack.com/oauth/authorize?client_id=${process.env.SLACK_ID}&redirect_uri=${process.env.SLACK_REDIRECT}new&scope=bot,commands`): img(alt="Add to Slack" height='40' width='139' src='/img/add_to_slack.png')
+      a(href=`https://slack.com/oauth/authorize?client_id=${process.env.SLACK_ID}&redirect_uri=${process.env.SLACK_REDIRECT}new&scope=bot,commands,channels:history`): img(alt="Add to Slack" height='40' width='139' src='/img/add_to_slack.png')
   div.container
     div.col
       div.card
@@ -93,5 +93,5 @@ block body
                   span.message_body
                     div.message_text #[span.white_check_mark ✔] You have joined the conversation in <strong>ExampleTeam</strong> <strong>#general</strong>!
         h4.footer-msg Begin collaberating today!
-        a(href=`https://slack.com/oauth/authorize?client_id=${process.env.SLACK_ID}&redirect_uri=${process.env.SLACK_REDIRECT}new&scope=bot,commands`): img(alt="Add to Slack" height='40' width='139' src='/img/add_to_slack.png')
+        a(href=`https://slack.com/oauth/authorize?client_id=${process.env.SLACK_ID}&redirect_uri=${process.env.SLACK_REDIRECT}new&scope=bot,commands,channels:history`): img(alt="Add to Slack" height='40' width='139' src='/img/add_to_slack.png')
 

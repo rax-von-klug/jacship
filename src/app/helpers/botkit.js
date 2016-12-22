@@ -151,39 +151,43 @@ export function join_shared_channel({ actions, team, channel }, callback) {
     });
 }
 
+export function process_event({ token, team_id, event }, callback) {
+    console.log(event);
+    console.log(token);
+    let url = `https://slack.com/api/users.info?token=${token}&user=${event.user}`;
+    let shared_channel_id = `${team_id}.${event.item.channel}`;
+
+    requestify.get(url).then((res) => {
+        let payload = res.getBody();
+
+        if (payload.ok) {
+            controller.storage.shares.get(shared_channel_id, (err, shared_channel) => {
+                if (!err && shared_channel !== null) {
+                    _.forEach(shared_channel.joined_channels, (channel) => {
+                        let post_message = {
+                            username: payload.user.name,
+                            channel: channel.post_channel_id,
+                            icon_url: payload.user.profile.image_32,
+                            text: event.item.text
+                        };
+                        let options = {
+                            headers: {
+                                'content-type': 'application/json'
+                            }
+                        };
+                        requestify.post(channel.webhook_url, post_message, options);
+                    });
+                }               
+            });
+        }
+    });
+}
+
 const _bots = {};
 
 function trackBot(bot) {
     _bots[bot.config.token] = bot;
 }
-
-controller.hears([".+","^pattern$"], ["ambient"], (bot, message) => {
-    let shared_channel_id = `${bot.team_info.id}.${message.channel}`;
-
-    bot.api.users.info({
-        user: message.user,
-        token: bot.config.token
-    }, (err, user_info) => {
-        controller.storage.shares.get(shared_channel_id, (err, shared_channel) => {
-            if (!err && shared_channel !== null) {
-                _.forEach(shared_channel.joined_channels, (channel) => {
-                    let post_message = {
-                        username: user_info.user.name,
-                        channel: channel.post_channel_id,
-                        icon_url: user_info.user.profile.image_32,
-                        text: message.text
-                    };
-                    let options = {
-                        headers: {
-                            'content-type': 'application/json'
-                        }
-                    };
-                    requestify.post(channel.webhook_url, post_message, options);
-                });
-            }
-        });
-    });
-});
 
 controller.on('create_bot', (bot, team) => {
     if (_bots[bot.config.token]) {

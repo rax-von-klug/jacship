@@ -37,9 +37,11 @@ router.post('/interactive', (req, res, next) => {
 });
 
 router.post('/events', (req, res, next) => {
-    if (req.body.type === 'url_verification') {
-        res.send(req.body.challenge);
-    }
+    let payload = req.body;
+
+    bot.process_event(payload, (reply) => {
+        res.send(reply);
+    });
 });
 
 router.post('/commands/register', (req, res, next) => {
