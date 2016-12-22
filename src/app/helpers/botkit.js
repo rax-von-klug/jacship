@@ -151,17 +151,18 @@ export function join_shared_channel({ actions, team, channel }, callback) {
 }
 
 export function process_event({ token, team_id, event }, callback) {
-    console.log(event);
-    controller.storage.teams.get(team_id, (err, team_info) => {
-        let url = `https://slack.com/api/users.info?token=${team_info.token}&user=${event.user}`;
-        let shared_channel_id = `${team_id}.${event.channel}`;
+    let shared_channel_id = `${team_id}.${event.channel}`;
 
-        requestify.get(url).then((res) => {
-            let payload = res.getBody();
+    controller.storage.shares.get(shared_channel_id, (err, shared_channel) => {
+        if (!err && shared_channel !== null) {
+            console.log(event);
+            controller.storage.teams.get(team_id, (err, team_info) => {
+                let url = `https://slack.com/api/users.info?token=${team_info.token}&user=${event.user}`;
 
-            if (payload.ok) {
-                controller.storage.shares.get(shared_channel_id, (err, shared_channel) => {
-                    if (!err && shared_channel !== null) {
+                requestify.get(url).then((res) => {
+                    let payload = res.getBody();
+                    if (payload.ok) {
+                        console.log(shared_channel);
                         _.forEach(shared_channel.joined_channels, (channel) => {
                             let post_message = {
                                 username: payload.user.name,
@@ -176,10 +177,10 @@ export function process_event({ token, team_id, event }, callback) {
                             };
                             requestify.post(channel.webhook_url, post_message, options);
                         });
-                    }               
+                    }
                 });
-            }
-        });
+            });
+        }
     });
 }
 
