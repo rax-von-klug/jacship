@@ -46,11 +46,10 @@ export function save_team({ access_token, bot, scope }) {
 
     return new Promise((resolve, reject) => {
         resolve(requestify.get(url).then((res) => {
-            console.log(res);
             let { team_id, user_id, url, team, user } = res.getBody();
 
             let slack_team = {
-                    id: team_id,
+                id: team_id,
                     bot:{
                     token: bot.bot_access_token,
                     user_id: bot.bot_user_id,
@@ -135,20 +134,63 @@ export function join_shared_channel({ actions, team, channel }, callback) {
                 shared_channel.joined_channels = [];
             }
 
-            shared_channel.joined_channels.push({
+            let new_joined_channel = {
                 id: team.id,
                 webhook_url: team.webhooks.incomingUrl,
                 post_channel_id: channel.id
-            });
+            };
 
-            controller.storage.shares.save(shared_channel);
+            if (_.some(shared_channel.joined_channels, new_joined_channel)) {
+                callback({
+                    text: `You have already joined *${shared_channel.team_name}'s* *#${shared_channel.channel_name}*`,
+                    replace_original: false
+                });
+            } else {
+                shared_channel.joined_channels.push(new_joined_channel);
 
-            callback({ 
-                text: `:white_check_mark: You have joined the conversation in *${shared_channel.team_name}'s* *#${shared_channel.channel_name}*!`,
-                replace_original: false 
-            });
+                controller.storage.shares.save(shared_channel);
+
+                callback({ 
+                    text: `:white_check_mark: You have joined the conversation in *${shared_channel.team_name}'s* *#${shared_channel.channel_name}*!`,
+                    replace_original: false 
+                });
+            }
         });
     });
+}
+
+export function process_event({ token, team_id, event }, callback) {
+    if (event.subtype !== 'bot_message') {
+        let shared_channel_id = `${team_id}.${event.channel}`;
+
+        controller.storage.shares.get(shared_channel_id, (err, shared_channel) => {
+            if (!err && shared_channel !== null) {
+                controller.storage.teams.get(team_id, (err, team_info) => {
+                    let url = `https://slack.com/api/users.info?token=${team_info.token}&user=${event.user}`;
+
+                    requestify.get(url).then((res) => {
+                        let payload = res.getBody();
+                        if (payload.ok) {
+                            _.forEach(shared_channel.joined_channels, (channel) => {
+                                let post_message = {
+                                    username: payload.user.name,
+                                    channel: channel.post_channel_id,
+                                    icon_url: payload.user.profile.image_32,
+                                    text: event.text
+                                };
+                                let options = {
+                                    headers: {
+                                        'content-type': 'application/json'
+                                    }
+                                };
+                                requestify.post(channel.webhook_url, post_message, options);
+                            });
+                        }
+                    });
+                });
+            }
+        });
+    }
 }
 
 const _bots = {};
@@ -156,34 +198,6 @@ const _bots = {};
 function trackBot(bot) {
     _bots[bot.config.token] = bot;
 }
-
-controller.hears([".+","^pattern$"], ["ambient"], (bot, message) => {
-    let shared_channel_id = `${bot.team_info.id}.${message.channel}`;
-
-    bot.api.users.info({
-        user: message.user,
-        token: bot.config.token
-    }, (err, user_info) => {
-        controller.storage.shares.get(shared_channel_id, (err, shared_channel) => {
-            if (!err && shared_channel !== null) {
-                _.forEach(shared_channel.joined_channels, (channel) => {
-                    let post_message = {
-                        username: user_info.user.name,
-                        channel: channel.post_channel_id,
-                        icon_url: user_info.user.profile.image_32,
-                        text: message.text
-                    };
-                    let options = {
-                        headers: {
-                            'content-type': 'application/json'
-                        }
-                    };
-                    requestify.post(channel.webhook_url, post_message, options);
-                });
-            }
-        });
-    });
-});
 
 controller.on('create_bot', (bot, team) => {
     if (_bots[bot.config.token]) {
