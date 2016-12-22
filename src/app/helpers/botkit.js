@@ -134,23 +134,25 @@ export function join_shared_channel({ actions, team, channel }, callback) {
                 shared_channel.joined_channels = [];
             }
 
-            if (!_.includes(shared_channel.joined_channels, channel.id)) {
-                shared_channel.joined_channels.push({
-                    id: team.id,
-                    webhook_url: team.webhooks.incomingUrl,
-                    post_channel_id: channel.id
+            let new_joined_channel = {
+                id: team.id,
+                webhook_url: team.webhooks.incomingUrl,
+                post_channel_id: channel.id
+            };
+
+            if (_.some(shared_channel.joined_channels, new_joined_channel)) {
+                callback({
+                    text: `You have already joined *${shared_channel.team_name}'s* *#${shared_channel.channel_name}*`,
+                    replace_original: false
                 });
+            } else {
+                shared_channel.joined_channels.push(new_joined_channel);
 
                 controller.storage.shares.save(shared_channel);
 
                 callback({ 
                     text: `:white_check_mark: You have joined the conversation in *${shared_channel.team_name}'s* *#${shared_channel.channel_name}*!`,
                     replace_original: false 
-                });
-            } else {
-                callback({
-                    text: `You have already joined *${shared_channel.team_name}'s* *#${shared_channel.channel_name}*`,
-                    replace_original: false
                 });
             }
         });
