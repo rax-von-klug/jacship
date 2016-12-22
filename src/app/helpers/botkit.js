@@ -152,36 +152,38 @@ export function join_shared_channel({ actions, team, channel }, callback) {
 }
 
 export function process_event({ token, team_id, event }, callback) {
-    let url = `https://slack.com/api/users.info?token=${token}&user=${event.user}`;
-    let shared_channel_id = `${team_id}.${event.channel}`;
+    controller.storage.teams.get(team_id, (err, team_info) => {
+        let url = `https://slack.com/api/users.info?token=${team_info.bot.bot_access_token}&user=${event.user}`;
+        let shared_channel_id = `${team_id}.${event.channel}`;
 
-    console.log(shared_channel_id);
+        console.log(shared_channel_id);
 
-    requestify.get(url).then((res) => {
-        let payload = res.getBody();
+        requestify.get(url).then((res) => {
+            let payload = res.getBody();
 
-        console.log(payload);
+            console.log(payload);
 
-        if (payload.ok) {
-            controller.storage.shares.get(shared_channel_id, (err, shared_channel) => {
-                if (!err && shared_channel !== null) {
-                    _.forEach(shared_channel.joined_channels, (channel) => {
-                        let post_message = {
-                            username: payload.user.name,
-                            channel: channel.post_channel_id,
-                            icon_url: payload.user.profile.image_32,
-                            text: event.text
-                        };
-                        let options = {
-                            headers: {
-                                'content-type': 'application/json'
-                            }
-                        };
-                        requestify.post(channel.webhook_url, post_message, options);
-                    });
-                }               
-            });
-        }
+            if (payload.ok) {
+                controller.storage.shares.get(shared_channel_id, (err, shared_channel) => {
+                    if (!err && shared_channel !== null) {
+                        _.forEach(shared_channel.joined_channels, (channel) => {
+                            let post_message = {
+                                username: payload.user.name,
+                                channel: channel.post_channel_id,
+                                icon_url: payload.user.profile.image_32,
+                                text: event.text
+                            };
+                            let options = {
+                                headers: {
+                                    'content-type': 'application/json'
+                                }
+                            };
+                            requestify.post(channel.webhook_url, post_message, options);
+                        });
+                    }               
+                });
+            }
+        });
     });
 }
 
