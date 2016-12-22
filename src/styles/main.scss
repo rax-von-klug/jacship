@@ -260,6 +260,15 @@ ts-message {
     border-radius: .25rem;
 }
 
+.btn_outline_red {
+    background: #fbfbfa;
+    color: #FF0000!important;
+    font-weight: 700;
+    text-shadow: none;
+    border: 1px solid #FF0000;
+    border-radius: .25rem;    
+}
+
 .action:hover {
     text-decoration: none;
     color: #555459;
@@ -326,6 +335,14 @@ ts-message {
     background-color: #008000;
     color: white;
     padding: 3px;
+}
+
+.white_x_mark {
+    border-radius: 0.25rem;
+    background-color: #008000;
+    color: white;
+    font-weight: bold;
+    padding: 5px;    
 }
 
 .attachment_group.has_border .inline_attachment {

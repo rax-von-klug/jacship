@@ -92,6 +92,41 @@ block body
                   br
                   span.message_body
                     div.message_text #[span.white_check_mark ✔] You have joined the conversation in <strong>ExampleTeam</strong> <strong>#general</strong>!
+        p.instructions Leave channels that have been joined
+        img(src='/img/disconnect_channels.png' class='start' alt='Enter the command /disconnect')
+        p.sub-instructions J.A.C.S.H.I.P. will send an interactive message with the channels that have been joined
+        div#message_preview_panel.panel.active
+          div#message_preview_wrapper
+            div(id='msg_div' class='no_padding' style='display: block')
+              ts-message(id='msg_0_000000' class='message feature_fix_files bot_message standalone first')
+                div(class='message_gutter dense_theme_margin')
+                  div.message_icon: img(src='/img/jac-ship-icon.png' class='member_image')
+                div.message_content
+                  span(class='message_sender color_bot_Your_App') J.A.C.S.H.I.P. #[span.bot_label BOT]
+                  a(class='timestamp ts_tip ts_tip_top ts_tip_float ts_tip_hidden ts_tip_multiline ts_tip_delay_300') 11:28 AM #[span.ts_tip_tip] #[span.tiemstamp Only visible by you]
+                  br
+                  span.message_body
+                    div.attachment_group.has_border.has_link
+                      div.inline_attachment.standalone.has_thumb.from_url.left-border
+                        div.msg_inline_attachment_column.column_content
+                          div.msg_inline_attachment_row.attachment_flush_text 
+                            div.message_text <strong>You have joined the following channels shared by ExampleTeam</strong>
+                            div.message_text Would you like to leave any of the conversations?
+                            a.btn.btn_outline_red #general
+                            a.btn.btn_outline_red #random
+        p.sub-instructions J.A.C.S.H.I.P. will send a confirmation that you have left the conversation.
+        div#message_preview_panel.panel.active
+          div#message_preview_wrapper
+            div(id='msg_div' class='no_padding' style='display: block')
+              ts-message(id='msg_0_000000' class='message feature_fix_files bot_message standalone first')
+                div(class='message_gutter dense_theme_margin')
+                  div.message_icon: img(src='/img/jac-ship-icon.png' class='member_image')
+                div.message_content
+                  span(class='message_sender color_bot_Your_App') J.A.C.S.H.I.P. #[span.bot_label BOT]
+                  a(class='timestamp ts_tip ts_tip_top ts_tip_float ts_tip_hidden ts_tip_multiline ts_tip_delay_300') 11:28 AM #[span.ts_tip_tip] #[span.tiemstamp Only visible by you]
+                  br
+                  span.message_body
+                    div.message_text #[span.white_x_mark X] You have left the conversation in <strong>ExampleTeam</strong> <strong>#general</strong>!
         h4.footer-msg Begin collaberating today!
         a(href=`https://slack.com/oauth/authorize?client_id=${process.env.SLACK_ID}&redirect_uri=${process.env.SLACK_REDIRECT}new&scope=bot,commands,channels:history,users:read`): img(alt="Add to Slack" height='40' width='139' src='/img/add_to_slack.png')
 
