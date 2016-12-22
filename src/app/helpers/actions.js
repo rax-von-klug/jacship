@@ -37,3 +37,13 @@ export function available_channel_action(channel_name, channel_id, team_id) {
         value: `${team_id}.${channel_id}`
     };
 }
+
+export function disconnect_channel_action(channel_name, shared_channel_id, team_id) {
+    return {
+        name: 'leave_channel',
+        text: `#${channel_name}`,
+        type: 'button',
+        style: 'danger',
+        value: `${shared_channel_id}#${team_id}`
+    };
+}

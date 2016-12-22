@@ -88,3 +88,14 @@ export function available_channels_reply(team_name) {
         actions: []
     };
 }
+
+export function joined_channels_reply(team_name) {
+    return {
+        title: `You have joined the following channels shared by ${team_name}`,
+        text: 'Would you like to leave any of the conversations?',
+        callback_id: `leave_shared_channel_${team_name}`,
+        color: '#008000',
+        attachment_type: "default",
+        actions: []
+    };
+}

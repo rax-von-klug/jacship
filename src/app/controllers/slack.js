@@ -70,4 +70,10 @@ router.post('/commands/available', (req, res, next) => {
     });
 });
 
+router.post('/commands/disconnect', (req, res, next) => {
+    bot.display_connected_channels(req.body, (reply) => {
+        res.send(reply);
+    });
+});
+
 export default router;

@@ -159,6 +159,31 @@ export function join_shared_channel({ actions, team, channel }, callback) {
     });
 }
 
+export function display_connected_channels({ team_id, channel_id }, callback) {
+    controller.storage.shares.all((err, shares) => {
+        let channels = _.filter(shares, (share) => share.channel_id !== channel_id);
+
+        let grouped_channels = _.groupBy(channels, 'team_name');
+        let reply_message = {
+            attachments: []
+        };
+
+        _.forEach(grouped_channels, (value, key) => {
+            let attachment = messages.joined_channels_reply(key);
+
+            _.forEach(value, (channel) => {
+                if (_.some(channel.joined_channels, ['id', team_id])) {
+                    attachment.actions.push(actions.disconnect_channel_action(channel.channel_name, channel.id, team_id));
+                }
+            });
+
+            reply_message.attachments.push(attachment);
+        });
+
+        callback(reply_message);
+    });
+}
+
 export function process_event({ token, team_id, event }, callback) {
     if (event.subtype !== 'bot_message') {
         let shared_channel_id = `${team_id}.${event.channel}`;
