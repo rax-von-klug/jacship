@@ -152,10 +152,8 @@ export function join_shared_channel({ actions, team, channel }, callback) {
 }
 
 export function process_event({ token, team_id, event }, callback) {
-    console.log(event);
-    console.log(token);
     let url = `https://slack.com/api/users.info?token=${token}&user=${event.user}`;
-    let shared_channel_id = `${team_id}.${event.item.channel}`;
+    let shared_channel_id = `${team_id}.${event.channel}`;
 
     requestify.get(url).then((res) => {
         let payload = res.getBody();
@@ -168,7 +166,7 @@ export function process_event({ token, team_id, event }, callback) {
                             username: payload.user.name,
                             channel: channel.post_channel_id,
                             icon_url: payload.user.profile.image_32,
-                            text: event.item.text
+                            text: event.text
                         };
                         let options = {
                             headers: {
