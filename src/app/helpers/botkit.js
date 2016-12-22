@@ -159,6 +159,8 @@ export function process_event({ token, team_id, event }, callback) {
         let payload = res.getBody();
 
         if (payload.ok) {
+            console.log(shared_channel_id);
+            console.log(payload);
             controller.storage.shares.get(shared_channel_id, (err, shared_channel) => {
                 if (!err && shared_channel !== null) {
                     _.forEach(shared_channel.joined_channels, (channel) => {
