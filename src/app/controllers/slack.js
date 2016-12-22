@@ -37,11 +37,9 @@ router.post('/interactive', (req, res, next) => {
 });
 
 router.post('/events', (req, res, next) => {
-    let payload = req.body;
+    res.sendStatus(200);
 
-    bot.process_event(payload, (reply) => {
-        res.send(reply);
-    });
+    bot.process_event(req.body);
 });
 
 router.post('/commands/register', (req, res, next) => {
