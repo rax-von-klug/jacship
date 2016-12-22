@@ -151,6 +151,7 @@ export function join_shared_channel({ actions, team, channel }, callback) {
 }
 
 export function process_event({ token, team_id, event }, callback) {
+    console.log(event);
     if (!event.subtype === 'bot_message') {
         let shared_channel_id = `${team_id}.${event.channel}`;
 
